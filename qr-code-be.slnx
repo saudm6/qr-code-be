@@ -1,0 +1,11 @@
+<Solution>
+  <Project Path="qr-code-be/src/Application/Application.csproj" />
+  <Project Path="qr-code-be/src/Domain/Domain.csproj" />
+  <Project Path="qr-code-be/src/Infrastructure/Infrastructure.csproj" />
+  <Project Path="qr-code-be/src/Web/Web.csproj" />
+  <Project Path="qr-code-be/tests/Application.FunctionalTests/Application.FunctionalTests.csproj" />
+  <Project Path="qr-code-be/tests/Application.UnitTests/Application.UnitTests.csproj" />
+  <Project Path="qr-code-be/tests/Domain.UnitTests/Domain.UnitTests.csproj" />
+  <Project Path="qr-code-be/tests/Infrastructure.IntegrationTests/Infrastructure.IntegrationTests.csproj" />
+  <Project Path="qr-code-be/tests/Web.AcceptanceTests/Web.AcceptanceTests.csproj" />
+</Solution>
