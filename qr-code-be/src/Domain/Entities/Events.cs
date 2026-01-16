@@ -14,5 +14,4 @@ public class Events : BaseAuditableEntity
     public required DateTime EventDate { get; set; }
     public required string Location { get; set; }
     public required string Genre { get; set; }
-
 }

@@ -43,6 +43,7 @@ Cookie: {{AuthCookieName}}={{AuthCookieValue}}
 POST {{Web_HostAddress}}/api/TodoLists
 Cookie: {{AuthCookieName}}={{AuthCookieValue}}
 Content-Type: application/json
+Accept: application/json
 
 // CreateTodoListCommand
 {

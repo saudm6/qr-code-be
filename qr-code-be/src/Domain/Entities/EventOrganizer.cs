@@ -8,9 +8,9 @@ namespace qr_code_be.Domain.Entities;
 
 public class EventOrganizer: BaseAuditableEntity
 {
-    public required string Name { get; set; }
-    public required string Email { get; set; }
-    public required string PhoneNumber { get; set; }
-    public required DateOnly DateOfBirth { get; set; }
-    public required int CivilId { get; set; }
+    public required string EventOrganizerName { get; set; }
+    public required string EventOrganizerEmail { get; set; }
+    public required string EventOrganizerPhoneNumber { get; set; }
+    public required DateOnly EventOrganizerDateofBirth { get; set; }
+    public required int EventOrganizerCivilId { get; set; }
 }

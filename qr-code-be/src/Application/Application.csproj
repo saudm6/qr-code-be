@@ -17,4 +17,10 @@
     <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Events\DTO\" />
+    <Folder Include="Events\Queries\" />
+    <Folder Include="Tickets\Queries\" />
+  </ItemGroup>
+
 </Project>
