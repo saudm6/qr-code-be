@@ -6,6 +6,127 @@
     "version": "1.0.0"
   },
   "paths": {
+    "/api/EventOrganizer": {
+      "post": {
+        "tags": [
+          "EventOrganizer"
+        ],
+        "operationId": "CreateEventOrganizer",
+        "requestBody": {
+          "x-name": "createEventOrganizer",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateEventOrganizer"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "EventOrganizer"
+        ],
+        "operationId": "GetAllEventOrganizers",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EventOrganizerDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/EventOrganizer/{id}": {
+      "get": {
+        "tags": [
+          "EventOrganizer"
+        ],
+        "operationId": "GetEventOrganizersById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventOrganizerDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "EventOrganizer"
+        ],
+        "operationId": "DeleteEventOrganizerById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "204": {
+            "description": ""
+          }
+        }
+      }
+    },
     "/api/TodoItems": {
       "get": {
         "tags": [
@@ -332,6 +453,59 @@
   },
   "components": {
     "schemas": {
+      "CreateEventOrganizer": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "eventOrganizerName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "phoneNumber": {
+            "type": "string"
+          },
+          "eventOrganizerCivilId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dateofBirth": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      },
+      "EventOrganizerDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "eventOrganizerName": {
+            "type": "string",
+            "nullable": true
+          },
+          "eventOrganizerEmail": {
+            "type": "string",
+            "nullable": true
+          },
+          "eventOrganizerPhoneNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "eventOrganizerCivilId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dateofBirth": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      },
       "PaginatedListOfTodoItemBriefDto": {
         "type": "object",
         "additionalProperties": false,
@@ -577,8 +751,7 @@
             "format": "int32"
           },
           "summary": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           }
         }
       }
