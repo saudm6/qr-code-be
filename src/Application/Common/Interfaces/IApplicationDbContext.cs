@@ -5,9 +5,7 @@ namespace qr_code.Application.Common.Interfaces;
 public interface IApplicationDbContext
 {
     DbSet<EventOrganizer> EventOrganizers { get; }
-
-
-
+    DbSet<EventGenre> EventGenres { get; }
 
     DbSet<TodoList> TodoLists { get; }
 

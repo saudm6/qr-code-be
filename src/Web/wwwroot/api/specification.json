@@ -6,6 +6,98 @@
     "version": "1.0.0"
   },
   "paths": {
+    "/api/EventGenre": {
+      "post": {
+        "tags": [
+          "EventGenre"
+        ],
+        "operationId": " ",
+        "requestBody": {
+          "x-name": "createEventGenre",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateEventGenre"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "EventGenre"
+        ],
+        "operationId": "GetAllEventGenre",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EventGenreDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/EventGenre/{id}": {
+      "get": {
+        "tags": [
+          "EventGenre"
+        ],
+        "operationId": "GetEventGenreById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventGenreDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/EventOrganizer": {
       "post": {
         "tags": [
@@ -453,6 +545,36 @@
   },
   "components": {
     "schemas": {
+      "CreateEventGenre": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "genreName": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      },
+      "EventGenreDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "genreName": {
+            "type": "string",
+            "nullable": true
+          },
+          "genreDescription": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
       "CreateEventOrganizer": {
         "type": "object",
         "additionalProperties": false,

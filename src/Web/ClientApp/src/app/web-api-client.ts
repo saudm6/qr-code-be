@@ -15,6 +15,195 @@ import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angula
 
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
+export interface IEventGenreClient {
+    /**
+     * @return OK
+     */
+    _(createEventGenre: CreateEventGenre): Observable<void>;
+    getAllEventGenre(): Observable<EventGenreDto[]>;
+    getEventGenreById(id: number): Observable<EventGenreDto>;
+}
+
+@Injectable({
+    providedIn: 'root'
+})
+export class EventGenreClient implements IEventGenreClient {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ?? "";
+    }
+
+    /**
+     * @return OK
+     */
+    _(createEventGenre: CreateEventGenre): Observable<void> {
+        let url_ = this.baseUrl + "/api/EventGenre";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(createEventGenre);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.process_(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.process_(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected process_(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
+            }));
+        } else if (status === 201) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result201: any = null;
+            let resultData201 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result201 = resultData201 !== undefined ? resultData201 : <any>null;
+    
+            return throwException("A server side error occurred.", status, _responseText, _headers, result201);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    getAllEventGenre(): Observable<EventGenreDto[]> {
+        let url_ = this.baseUrl + "/api/EventGenre";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllEventGenre(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllEventGenre(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<EventGenreDto[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<EventGenreDto[]>;
+        }));
+    }
+
+    protected processGetAllEventGenre(response: HttpResponseBase): Observable<EventGenreDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(EventGenreDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    getEventGenreById(id: number): Observable<EventGenreDto> {
+        let url_ = this.baseUrl + "/api/EventGenre/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetEventGenreById(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetEventGenreById(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<EventGenreDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<EventGenreDto>;
+        }));
+    }
+
+    protected processGetEventGenreById(response: HttpResponseBase): Observable<EventGenreDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = EventGenreDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+}
+
 export interface IEventOrganizerClient {
     /**
      * @return OK
@@ -850,6 +1039,90 @@ export class WeatherForecastsClient implements IWeatherForecastsClient {
         }
         return _observableOf(null as any);
     }
+}
+
+export class CreateEventGenre implements ICreateEventGenre {
+    genreName?: string;
+    description?: string;
+
+    constructor(data?: ICreateEventGenre) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.genreName = _data["genreName"];
+            this.description = _data["description"];
+        }
+    }
+
+    static fromJS(data: any): CreateEventGenre {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateEventGenre();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["genreName"] = this.genreName;
+        data["description"] = this.description;
+        return data;
+    }
+}
+
+export interface ICreateEventGenre {
+    genreName?: string;
+    description?: string;
+}
+
+export class EventGenreDto implements IEventGenreDto {
+    id?: number;
+    genreName?: string | undefined;
+    genreDescription?: string | undefined;
+
+    constructor(data?: IEventGenreDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.genreName = _data["genreName"];
+            this.genreDescription = _data["genreDescription"];
+        }
+    }
+
+    static fromJS(data: any): EventGenreDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new EventGenreDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["genreName"] = this.genreName;
+        data["genreDescription"] = this.genreDescription;
+        return data;
+    }
+}
+
+export interface IEventGenreDto {
+    id?: number;
+    genreName?: string | undefined;
+    genreDescription?: string | undefined;
 }
 
 export class CreateEventOrganizer implements ICreateEventOrganizer {

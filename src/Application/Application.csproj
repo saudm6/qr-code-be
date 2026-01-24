@@ -17,4 +17,13 @@
     <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="BASELINE %28FOLDERS ONLY%29\Commands\" />
+    <Folder Include="BASELINE %28FOLDERS ONLY%29\DTO\" />
+    <Folder Include="BASELINE %28FOLDERS ONLY%29\Queries\" />
+    <Folder Include="Events\Commands\" />
+    <Folder Include="Events\DTO\" />
+    <Folder Include="Events\Queries\" />
+  </ItemGroup>
+
 </Project>
