@@ -24,6 +24,9 @@
     <Folder Include="Events\Commands\" />
     <Folder Include="Events\DTO\" />
     <Folder Include="Events\Queries\" />
+    <Folder Include="Users\Commands\" />
+    <Folder Include="Users\DTO\" />
+    <Folder Include="Users\Queries\" />
   </ItemGroup>
 
 </Project>
